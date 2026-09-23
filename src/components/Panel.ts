@@ -307,8 +307,9 @@ export class Panel {
     this.element.appendChild(this.header);
     this.element.appendChild(this.content);
 
-    if (this._collapseBtn && loadPanelCollapsed()[this.panelId]) {
-      this._applyCollapsed(this._collapseBtn, true);
+    if (this._collapseBtn) {
+      const collapsed = loadPanelCollapsed()[this.panelId] === true;
+      this._applyCollapsed(this._collapseBtn, collapsed);
     }
 
     this.content.addEventListener('click', (e) => {
@@ -798,6 +799,7 @@ export class Panel {
 
   private _applyCollapsed(btn: HTMLButtonElement, collapsed: boolean): void {
     this._collapsed = collapsed;
+    this.element.dataset.collapsed = String(collapsed);
     this.content.style.display = collapsed ? 'none' : '';
     this.element.classList.toggle('panel-collapsed', collapsed);
     btn.textContent = collapsed ? '▸' : '▾';
